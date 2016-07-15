@@ -1,0 +1,11 @@
+﻿
+@{
+    ViewBag.Title = "ConfirmCode";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<form action="@Url.Action("ConfirmCode", "Account")" method="post">
+    <input type="text" name="code" placeholder="Code..." />
+    <input type="submit" value="Подтвердить вход в ПБ"/>
+</form>
+
