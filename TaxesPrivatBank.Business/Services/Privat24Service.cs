@@ -1,95 +1,48 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using TaxesprivatBank.Core.Dto;
-using TaxesprivatBank.Core.Helpers;
 
 namespace TaxesPrivatBank.Business.Services
 {
     /// <summary>
-    /// The privat24 client service.
+    /// The privat 24 service.
     /// </summary>
     public class Privat24Service : ServiceBase
     {
         /// <summary>
         /// The privat bank API URL.
         /// </summary>
-        private const string PrivatBankApiUrl = "https://link.privatbank.ua/";
+        private const string ApiUrl = "https://api.privatbank.ua/";
 
         /// <summary>
-        /// The client identifier.
+        /// Initializes a new instance of the <see cref="Privat24Service"/> class.
         /// </summary>
-        private string clientID;
-
-        /// <summary>
-        /// The client secret.
-        /// </summary>
-        private string clientSecret;
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="Privat24Service" /> class.
-        /// </summary>
-        /// <param name="clientID">The client identifier.</param>
-        /// <param name="clientSecret">The client secret.</param>
-        public Privat24Service(string clientID, string clientSecret)
-            : base(PrivatBankApiUrl)
+        public Privat24Service()
+            : base(ApiUrl)
         {
-            this.clientID = clientID;
-            this.clientSecret = clientSecret;
         }
-
+        
         /// <summary>
-        /// Gets the session identifier.
+        /// Gets the exchange rate usd.
         /// </summary>
-        /// <param name="clientID">The client identifier.</param>
-        /// <param name="clientSecret">The client secret.</param>
-        /// <returns>The session.</returns>
-        public PBSessionDto GetSession()
+        /// <param name="date">The date.</param>
+        /// <returns></returns>
+        public ExchangeRateDto GetExchangeRate(string currency, DateTime date)
         {
-            string apiEndpoint = "api/auth/createSession";
-            Dictionary<string, string> parameters = new Dictionary<string, string>()
+            string apiEndPoint = "p24api/exchange_rates";
+            Dictionary<string, string> parameters = new Dictionary<string, string>
             {
-                { "clientId", this.clientID },
-                { "clientSecret", this.clientSecret},
+                { "date", date.ToString("dd.MM.yyyy") },
+                { "json", null }
             };
 
-            return this.GetPOSTResponse<PBSessionDto>(apiEndpoint, parameters);
-        }
+            var exchangeRate = this.GetGETResponse<ExchangeRatesDto>(apiEndPoint, parameters);
 
-        /// <summary>
-        /// Gets the person session.
-        /// </summary>
-        /// <param name="sessionId">The session identifier.</param>
-        /// <param name="login">The login.</param>
-        /// <param name="password">The password.</param>
-        /// <returns>The person session.</returns>
-        public PBPersonSessionDto GetPersonSession(string sessionId, string login, string password)
-        {
-            string apiEndpoint = "api/p24BusinessAuth/createSession";
-            Dictionary<string, string> parameters = new Dictionary<string, string>()
-            {
-                { "sessionId", sessionId },
-                { "login", login},
-                { "password", password }
-            };
-
-            return this.GetPOSTResponse<PBPersonSessionDto>(apiEndpoint, parameters);
-        }
-
-        /// <summary>
-        /// Confirms the SMS code.
-        /// </summary>
-        /// <param name="sessionId">The session identifier.</param>
-        /// <param name="code">The code.</param>
-        /// <returns>The person session.</returns>
-        public PBPersonSessionDto ConfirmSmsCode(string sessionId, string code)
-        {
-            string apiEndpoint = "api/p24BusinessAuth/checkOtp";
-            Dictionary<string, string> parameters = new Dictionary<string, string>()
-            {
-                { "sessionId", sessionId },
-                { "otp", code},
-            };
-
-            return this.GetPOSTResponse<PBPersonSessionDto>(apiEndpoint, parameters);
+            return exchangeRate.ExchangeRates
+                .SingleOrDefault(er => er.Currency.Equals(currency, StringComparison.OrdinalIgnoreCase));
         }
     }
 }

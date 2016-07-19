@@ -7,7 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaxesPrivatBank", "TaxesPri
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaxesPrivatBank.Business", "TaxesPrivatBank.Business\TaxesPrivatBank.Business.csproj", "{09FAC1D8-15D6-4ADB-BB19-3FB6F7685EF7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaxesprivatBank.Core", "TaxesprivatBank.Core\TaxesprivatBank.Core.csproj", "{E114E13F-9746-4C75-B6A7-EE18CE8EE16E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaxesPrivatBank.Core", "TaxesprivatBank.Core\TaxesPrivatBank.Core.csproj", "{E114E13F-9746-4C75-B6A7-EE18CE8EE16E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

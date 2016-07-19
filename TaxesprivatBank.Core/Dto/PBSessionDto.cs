@@ -18,6 +18,6 @@
         /// <summary>
         /// Gets or sets the expires in.
         /// </summary>
-        public double ExpiresIn { get; set; }
+        public double @ExpiresIn { get; set; }
     }
 }

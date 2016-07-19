@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using TaxesprivatBank.Core.Dto;
 using TaxesPrivatBank.Business;
 using TaxesPrivatBank.Business.Interfaces;
+using TaxesPrivatBank.Helpers;
 
 namespace TaxesPrivatBank.Controllers
 {
@@ -14,10 +15,6 @@ namespace TaxesPrivatBank.Controllers
     /// </summary>
     public class AccountController : Controller
     {
-        /// <summary>
-        /// The pb session identifier cookie name.
-        /// </summary>
-        private const string PBSessionIDCookieName = "pbSessionID";
 
         /// <summary>
         /// The privat bank manager
@@ -45,8 +42,7 @@ namespace TaxesPrivatBank.Controllers
             PBSessionDto session = this.privatBankManager.GetSession();
             PBPersonSessionDto personSession = this.privatBankManager
                 .GetPersonSession(session.ID, login, password);
-            this.Response.Cookies.Remove(PBSessionIDCookieName);
-            this.Response.Cookies.Add(new HttpCookie(PBSessionIDCookieName, personSession.ID));
+            CookieHelper.PBSessionID = personSession.ID;
             if (personSession.Message.StartsWith("Authentication successful"))
             {
                 result = this.RedirectToAction("Index", "Home", null);
@@ -67,8 +63,9 @@ namespace TaxesPrivatBank.Controllers
         [HttpPost]
         public ActionResult ConfirmCode(string code)
         {
-            string sessionID = this.Request.Cookies[PBSessionIDCookieName].Value;
+            string sessionID = CookieHelper.PBSessionID;
             PBPersonSessionDto personSession = this.privatBankManager.ConfirmSmsCode(sessionID, code);
+            CookieHelper.PBSessionID = personSession.ID;
             return this.RedirectToAction("Index", "Home", null);
         }
     }

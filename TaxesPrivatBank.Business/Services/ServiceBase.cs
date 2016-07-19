@@ -1,6 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
+using Newtonsoft.Json;
 using RestSharp;
+using RestSharp.Deserializers;
+using RestSharp.Serializers;
 
 namespace TaxesPrivatBank.Business.Services
 {
@@ -42,6 +46,40 @@ namespace TaxesPrivatBank.Business.Services
 
             request.AddBody(parameters);
 
+            var response = client.Execute<T>(request);
+            T responseData = response.Data;
+            return responseData;
+        }
+
+        /// <summary>
+        /// Gets the get response.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="apiEndpoint">The API endpoint.</param>
+        /// <param name="parameters">The parameters.</param>
+        /// <param name="authorizationHeader">The authorization header.</param>
+        /// <returns></returns>
+        protected T GetGETResponse<T>(string apiEndpoint, Dictionary<string, string> parameters, string authorizationHeader = null)
+            where T : new()
+        {
+            RestClient client = new RestClient(new Uri(this.serviceUrl));
+            RestRequest request = new RestRequest(apiEndpoint, Method.GET);
+            request.RequestFormat = DataFormat.Json;
+            request.AddHeader("Content-Type", "application/json");
+            request.AddHeader("Accept", "application/json");
+
+            // Add authorization header if it needed
+            if (!string.IsNullOrEmpty(authorizationHeader))
+            {
+                request.AddHeader("Authorization", authorizationHeader);
+            }
+
+            // Add query string parameters
+            foreach(KeyValuePair<string, string> parameter in parameters)
+            {
+                request.AddQueryParameter(parameter.Key, parameter.Value);
+            }
+            
             var response = client.Execute<T>(request);
             T responseData = response.Data;
             return responseData;

@@ -122,10 +122,13 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\TaxesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\CookieHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewModels\TaxesViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
@@ -136,6 +139,7 @@
     <Content Include="Content\Site.css" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <None Include="Properties\PublishProfiles\Stage.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -164,6 +168,7 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Account\LoginToPB.cshtml" />
     <Content Include="Views\Account\ConfirmCode.cshtml" />
+    <Content Include="Views\Taxes\Index.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
@@ -179,9 +184,9 @@
       <Project>{09FAC1D8-15D6-4ADB-BB19-3FB6F7685EF7}</Project>
       <Name>TaxesPrivatBank.Business</Name>
     </ProjectReference>
-    <ProjectReference Include="..\TaxesprivatBank.Core\TaxesprivatBank.Core.csproj">
+    <ProjectReference Include="..\TaxesprivatBank.Core\TaxesPrivatBank.Core.csproj">
       <Project>{E114E13F-9746-4C75-B6A7-EE18CE8EE16E}</Project>
-      <Name>TaxesprivatBank.Core</Name>
+      <Name>TaxesPrivatBank.Core</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

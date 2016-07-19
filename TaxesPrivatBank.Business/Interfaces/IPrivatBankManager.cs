@@ -1,4 +1,6 @@
-﻿using TaxesprivatBank.Core.Dto;
+﻿using System;
+using System.Collections.Generic;
+using TaxesprivatBank.Core.Dto;
 
 namespace TaxesPrivatBank.Business.Interfaces
 {
@@ -33,5 +35,15 @@ namespace TaxesPrivatBank.Business.Interfaces
         /// <param name="code">The code.</param>
         /// <returns>The person session.</returns>
         PBPersonSessionDto ConfirmSmsCode(string sessionId, string code);
+
+        /// <summary>
+        /// Gets the statements.
+        /// </summary>
+        /// <param name="sessionID">The session identifier.</param>
+        /// <param name="startDate">The start date.</param>
+        /// <param name="endDate">The end date.</param>
+        /// <param name="interestRate">The interest rate.</param>
+        /// <returns></returns>
+        TaxesDto GetTaxes(string sessionID, DateTime startDate, DateTime endDate, double interestRate);
     }
 }
